@@ -1,0 +1,58 @@
+##Abstract
+This is a summary of exploratory analysis on three corpora of English-language text (US) from different online sources: blogs, news, and Twitter. 
+[results]
+##Introduction##
+The study corpora are divided into three sources: blogs, news, and Twitter messages. For each corpora, we performed exploratory analysis to find the following metrics. 
+file size
+number of lines (empty and non-empty)
+number of words
+distribution of words, including most frequent words
+number of characters (including and excluding spaces)
+
+Analysis was performed using the ggplot2 and stringi packages in R. 
+
+##Data
+First, the data was loaded based on category. 
+
+```{r eval=FALSE}
+setwd("/Users/blair_stolk/Coursera-SwiftKey/final/en_US")
+blogs <- readLines("./en_US.blogs.txt")
+news <- readLines("./en_us.news.txt")
+twitter <- readLines("./en_us.twitter.txt")
+```
+```{r eval=FALSE}
+file.info(blogs)$size/1024^2
+file.info(news)$size/1024^2
+file.info(twitter)$size/1024
+```
+
+```{r}
+library(stringi)
+stri_stats_general(blogs)
+stri_stats_general(news)
+stri_stats_general(twitter)
+```
+
+```{r}
+blogwords <- stri_count_words(blogs)
+summary(blogwords)
+qplot(blogwords)
+```
+```{r}
+newswords <- stri_count_words(news)
+summary(newswords)
+qplot(newswords)
+```
+
+```{r}
+twitwords <- stri_count_words(twitter)
+summary(twitwords)
+qplot(twitwords)
+```
+##Results##
+
+The blog corpora was 200.42MB, and the news corpora similarly sized at 196.23MB. The Twitter corpora was somewhat smaller at 159.36MB. 
+The blog corpora had  206,824,382 characters in total, 170,389,539
+ excluding spaces, and 899,288 lines (none blank). The news corpora was of a similar size, with 203,223,154 characters (169,860866 excluding spaces) contained in 1,010242 lines with no blank lines found. 
+The Twitter corpora also had no blank lines, but somewhat fewer characters (162,096,031 in total, 134,092,634 excluding spaces). 
+The news and blog corpora show similar word frequency distributions. However, the Twitter corpora shows a frequency which is not log-normal, but this is likely a result of the character limit associated with Twitter. 
